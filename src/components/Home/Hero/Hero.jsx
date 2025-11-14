@@ -38,10 +38,10 @@ const Hero = () => {
   return (
     <div className="hero-wrapper">
       <Swiper
-        modules={[Autoplay, Pagination, Navigation]}
+        modules={[Autoplay,  Navigation]}
         autoplay={{ delay: 3000, disableOnInteraction: false }}
         loop
-        pagination={{ clickable: true }}
+        
         navigation
         speed={1500}   // ⭐ SUPER SMOOTH SCROLL
         className="hero-swiper"
