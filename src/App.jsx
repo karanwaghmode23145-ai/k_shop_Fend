@@ -12,6 +12,9 @@ import Footer from './components/Footer/Footer'
 // ragister page
 import RegisterSection from './components/Register/RegisterSection'
 
+//login
+import LoginSection from './LoginSection/LoginSection'
+
 
 
 const App = () => {
@@ -21,6 +24,8 @@ const App = () => {
         <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/register" element={<RegisterSection />} />
+            <Route path="/login" element={<LoginSection />} />
+
         </Routes>
         <Footer />
         </>
