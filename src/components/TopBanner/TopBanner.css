@@ -1,0 +1,47 @@
+.top-banner {
+  width: 100%;
+  padding: 60px 0;
+ 
+  background: linear-gradient(135deg, #ff4f81, #ff6fae, #ff94c8);
+  color: #fff;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Gradient Shine Overlay */
+.top-banner::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.18) 0%,
+    transparent 60%
+  );
+  animation: glowMove 7s linear infinite;
+}
+
+@keyframes glowMove {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(50%, 50%); }
+}
+
+.banner-content {
+  position: relative;
+  z-index: 2;
+}
+
+.banner-content h1 {
+  font-size: 38px;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.banner-content p {
+  font-size: 17px;
+  opacity: 0.9;
+}

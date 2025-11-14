@@ -1,0 +1,156 @@
+.footer {
+  margin-top: 60px;
+  background: #fff;
+  color: #444;
+  font-family: "Inter", sans-serif;
+}
+
+/* OFFER BAR */
+.footer-offer {
+  background: #ff4f81;
+  padding: 12px 0;
+  text-align: center;
+  color: #fff;
+  font-weight: 500;
+}
+
+.footer-offer a {
+  color: #fff;
+  margin-left: 6px;
+  text-decoration: underline;
+}
+
+/* MAIN FOOTER AREA */
+.footer-main {
+  padding: 60px 0 40px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 40px;
+}
+
+.footer-box h4 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.footer-logo {
+  width: 140px;
+  margin-bottom: 15px;
+}
+
+.footer-box ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-box ul li {
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.footer-box ul li a {
+  color: #444;
+  transition: 0.3s;
+}
+
+.footer-box ul li a:hover {
+  color: #ff4f81;
+}
+
+/* NEWSLETTER */
+.newsletter {
+  display: flex;
+  margin-top: 15px;
+  background: #f1f1f1;
+  border-radius: 40px;
+  padding: 5px 6px;
+}
+
+.newsletter input {
+  border: none;
+  padding: 10px 15px;
+  width: 100%;
+  outline: none;
+  background: none;
+}
+
+.newsletter button {
+  background: #ff4f81;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 40px;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.newsletter button:hover {
+  background: #e33b6c;
+}
+
+/* BOTTOM BAR */
+.footer-bottom {
+  border-top: 1px solid #e4e4e4;
+  padding: 18px 0;
+}
+
+.footer-bottom-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.social {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.social ul {
+  display: flex;
+  gap: 8px;
+}
+
+.social li a {
+  background: #f1f1f1;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  font-size: 15px;
+  color: #444;
+  transition: 0.3s;
+}
+
+.social li a:hover {
+  background: #ff4f81;
+  color: #fff;
+}
+
+.copy {
+  font-size: 14px;
+  text-align: center;
+}
+
+.copy span {
+  color: #ff4f81;
+  font-weight: 600;
+}
+
+.payment-img {
+  width: 150px;
+}
+
+/* RESPONSIVE */
+@media(max-width: 768px) {
+  .footer-bottom-flex {
+    flex-direction: column;
+    text-align: center;
+  }
+}
