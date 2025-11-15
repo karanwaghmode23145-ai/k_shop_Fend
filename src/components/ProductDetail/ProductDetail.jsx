@@ -14,7 +14,7 @@ const ProductDetail = () => {
     const fetchProduct = async () => {
       try {
         setLoading(true);
-        const res = await axios.get(`http://localhost:5003/api/products/${productId}`);
+        const res = await axios.get(`https://k-shop-bend.vercel.app/api/products/${productId}`);
         setProduct(res.data);
         setActiveImage(res.data.thumbnail || res.data.images[0]);
       } catch (err) {
