@@ -15,6 +15,9 @@ import RegisterSection from './components/Register/RegisterSection'
 //login
 import LoginSection from './LoginSection/LoginSection'
 
+//product detail page
+import ProductDetail from './components/ProductDetail/ProductDetail'
+
 
 
 const App = () => {
@@ -25,6 +28,7 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="/register" element={<RegisterSection />} />
             <Route path="/login" element={<LoginSection />} />
+            <Route path="/product/:id" element={<ProductDetail />} />
 
         </Routes>
         <Footer />
