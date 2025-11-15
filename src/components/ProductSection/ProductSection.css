@@ -32,10 +32,10 @@
   border-radius: 8px;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 25px;
+.grid.new {
+    display: grid !important;
+    grid-template-columns: repeat(3, 3fr) !important;
+    gap: 20px !important;
 }
 
 .product-card {
