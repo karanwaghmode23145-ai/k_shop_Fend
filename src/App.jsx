@@ -18,6 +18,12 @@ import LoginSection from './LoginSection/LoginSection'
 //product detail page
 import ProductDetail from './components/ProductDetail/ProductDetail'
 
+//cloud
+import UploadImage from './Pages/UploadImage'
+
+//collection
+import CollectionPage from './components/CollectionPage/CollectionPage'
+
 
 
 const App = () => {
@@ -29,6 +35,8 @@ const App = () => {
             <Route path="/register" element={<RegisterSection />} />
             <Route path="/login" element={<LoginSection />} />
             <Route path="/product/:id" element={<ProductDetail />} />
+            <Route path="/upload" element={<UploadImage />} />
+            <Route path="/collection" element={<CollectionPage />} />
 
         </Routes>
         <Footer />

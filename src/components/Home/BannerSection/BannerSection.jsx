@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./BannerSection.css";
 
 import twob from "../../../assets/2.jpg";
@@ -10,8 +11,8 @@ export default function BannerSection() {
       <div className="container">
         <div className="banner-grid">
 
-          {/* LEFT BANNER */}
-          <div className="banner-card">
+          {/* LEFT BANNER → MEN SHOES */}
+          <Link to="/collection?category=Shoes" className="banner-card">
             <img src={twob} alt="banner" className="banner-img" />
 
             <div className="banner-text">
@@ -20,12 +21,12 @@ export default function BannerSection() {
                 mens <br /> Sport shoes
               </h3>
               <p className="discount">30% Discount</p>
-              <button className="btn">Order Now</button>
+              <button className="btn">Shop Shoes</button>
             </div>
-          </div>
+          </Link>
 
-          {/* RIGHT BANNER */}
-          <div className="banner-card">
+          {/* RIGHT BANNER → WATCHES */}
+          <Link to="/collection?category=Watches" className="banner-card">
             <img src={two} alt="banner" className="banner-img" />
 
             <div className="banner-text">
@@ -34,9 +35,9 @@ export default function BannerSection() {
                 Smart <br /> watches
               </h3>
               <p className="discount">Buy any 3 Items & get 20% Discount</p>
-              <button className="btn">Order Now</button>
+              <button className="btn">Shop Watches</button>
             </div>
-          </div>
+          </Link>
 
         </div>
       </div>
