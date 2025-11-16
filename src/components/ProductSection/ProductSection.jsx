@@ -136,7 +136,7 @@ export default function ProductSection() {
           <p className="loading">Loading...</p>
         ) : (
           <div className="grid new">
-            {products[active].slice(0, 9).map((p) => (
+            {products[active].slice(0, 8).map((p) => (
               <ProductCard key={p._id} product={p} />
             ))}
           </div>

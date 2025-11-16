@@ -34,8 +34,8 @@
 
 .grid.new {
     display: grid !important;
-    grid-template-columns: repeat(3, 3fr) !important;
-    gap: 20px !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 15px !important;
 }
 
 .product-card {
@@ -121,13 +121,10 @@
   color: #fff;
 }
 
-.content {
-  text-align: center;
-  margin-top: 15px;
-}
+
 
 .content h4 {
-  font-size: 17px;
+  font-size: 15px !important;
   font-weight: 600;
   margin-bottom: 8px;
 }
@@ -135,7 +132,7 @@
 .rating i {
   margin: 0 2px;
   color: #ccc;
-  font-size: 14px;
+  font-size: 20px !important;
 }
 
 .rating .yellow {
@@ -144,8 +141,8 @@
 
 .price {
   margin-top: 8px;
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 16px !important;
+  font-weight: 500 !important;
 }
 
 .price .old {
