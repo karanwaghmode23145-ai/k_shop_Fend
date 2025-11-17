@@ -5,6 +5,10 @@ import { Routes, Route, Link } from 'react-router-dom'
 import Header from './components/Header/Header'
 import Home from './Pages/Home'
 
+//redux
+import CartTester from './Pages/CartTester'
+
+
 // footer
 
 import Footer from './components/Footer/Footer'
@@ -30,6 +34,9 @@ import ReviewSection from './components/Reviews/ReviewSection'
 //related product
 import RelatedProductsPage from './Pages/RelatedProductsPage'
 
+//cart
+import CartPage from './Pages/CartPage'
+
 
 const App = () => {
     return (
@@ -44,6 +51,8 @@ const App = () => {
             <Route path="/collection" element={<CollectionPage />} />
             <Route path="/review" element={<ReviewSection />} />
             <Route path="/related-products/:productId" element={<RelatedProductsPage />} />
+            <Route path="/carttest" element={<CartTester />} />
+            <Route path="/cart" element={<CartPage />} />
         </Routes>
         <Footer />
         </>

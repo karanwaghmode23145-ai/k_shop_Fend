@@ -4,13 +4,28 @@ import ProductTabs from "../ProductTabs/ProductTabs";
 
 import "./ProductDetail.css";
 import RelatedProductsSection from "../RelatedProducts/RelatedProductsSection";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../slices/cartSlice";
 
 const ProductDetail = () => {
   const productId = window.location.pathname.split("/").pop();
-
+  const dispatch = useDispatch();
   const [product, setProduct] = useState(null);
   const [activeImage, setActiveImage] = useState("");
   const [loading, setLoading] = useState(true);
+
+  const handleAddToCart = () => {
+  // payload: minimalist product info
+  const payload = {
+    _id: product._id,
+    title: product.title,
+    price: product.price,
+    thumbnail: product.thumbnail || (product.images && product.images[0]),
+  };
+  dispatch(addToCart(payload));
+  // optional UI feedback:
+  console.log("UI -> dispatched addToCart for", payload._id);
+};
 
   // Fetch product by ID
   useEffect(() => {
@@ -123,7 +138,7 @@ const ProductDetail = () => {
               )}
 
               <div className="buttons">
-                <button className="add-cart">Add to Cart</button>
+                <button className="add-cart" onClick={handleAddToCart}>Add to Cart</button>
                 <button className="wishlist">❤️ Wishlist</button>
               </div>
 

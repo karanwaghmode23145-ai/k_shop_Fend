@@ -2,6 +2,8 @@ import React from "react";
 import "./HeaderMiddle.css";
 import { FaUser, FaHeart, FaShoppingBag, FaSearch } from "react-icons/fa";
 import logo from "../../assets/logo.png";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const HeaderMiddle = () => {
 
@@ -12,6 +14,9 @@ const HeaderMiddle = () => {
     localStorage.removeItem("user");
     window.location.href = "/login";
   };
+
+  const cartItems = useSelector((state) => state.cart.cartItems);
+    const cartCount = cartItems.reduce((sum, i) => sum + (i.qty || 0), 0);
 
   return (
     <div className="header-middle d-none d-lg-block">
@@ -70,8 +75,10 @@ const HeaderMiddle = () => {
 
               {/* Cart */}
               <div className="header-cart position-relative">
-                <button className="icon-btn"><FaShoppingBag /></button>
-                <span className="badge">3</span>
+              <Link to="/cart" className="cart-link">
+  Cart <span className="cart-badge">{cartCount}</span>
+</Link>
+                
               </div>
 
             </div>

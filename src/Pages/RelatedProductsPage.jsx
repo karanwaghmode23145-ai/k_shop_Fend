@@ -26,7 +26,7 @@ const RelatedProductsPage = () => {
       <h2 className="page-title">Related Products</h2>
 
       <div className="row">
-        {related.map((p) => (
+        {related.slice(0, 4).map((p) => (
           <div className="col-lg-3 col-md-4 col-6" key={p._id}>
             <Link to={`/product/${p._id}`} className="rp-card">
               <img src={p.thumbnail || p.images[0]} alt={p.title} />
