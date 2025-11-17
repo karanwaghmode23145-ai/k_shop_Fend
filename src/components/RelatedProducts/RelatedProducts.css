@@ -1,0 +1,104 @@
+/* ==============================
+   RELATED PRODUCTS SECTION
+============================== */
+.related-section {
+  margin-top: 50px;
+  padding-bottom: 40px;
+}
+
+.related-title,
+.page-title {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 25px;
+  position: relative;
+  display: inline-block;
+}
+
+.related-title::after,
+.page-title::after {
+  content: "";
+  width: 60%;
+  height: 3px;
+  background: #ff6f61;
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  border-radius: 5px;
+}
+
+/* ==============================
+   PRODUCT CARD
+============================== */
+.rp-card {
+  display: block;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.09);
+  transition: 0.3s ease;
+  cursor: pointer;
+  text-decoration: none;
+  color: #333;
+  position: relative;
+  overflow: hidden;
+}
+
+.rp-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+/* Product image */
+.rp-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: contain;
+  transition: 0.3s ease-in-out;
+}
+
+.rp-card:hover img {
+  transform: scale(1.08);
+}
+
+/* Product Title */
+.rp-card h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 12px 0 6px;
+  height: 40px;
+  overflow: hidden;
+  color: #222;
+}
+
+/* Price */
+.rp-card .price {
+  font-size: 18px;
+  font-weight: 700;
+  color: #e63946;
+}
+
+/* ==============================
+   RESPONSIVE
+============================== */
+@media (max-width: 991px) {
+  .rp-card img {
+    height: 180px;
+  }
+}
+
+@media (max-width: 767px) {
+  .rp-card img {
+    height: 160px;
+  }
+  
+  .rp-card h4 {
+    font-size: 14px;
+    height: auto;
+  }
+
+  .rp-card .price {
+    font-size: 16px;
+  }
+}

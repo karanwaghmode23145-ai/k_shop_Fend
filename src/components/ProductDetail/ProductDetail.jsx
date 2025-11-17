@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ProductTabs from "../ProductTabs/ProductTabs";
+
 import "./ProductDetail.css";
+import RelatedProductsSection from "../RelatedProducts/RelatedProductsSection";
 
 const ProductDetail = () => {
   const productId = window.location.pathname.split("/").pop();
@@ -159,6 +161,8 @@ const ProductDetail = () => {
         </div>
        
         {/* ================= END ROW 2 ================= */}
+
+        <RelatedProductsSection productId={productId} />
     </>
   );
 };
