@@ -1,0 +1,181 @@
+/* Main Review Section Wrapper */
+.review-section {
+  margin-top: 40px;
+  padding: 20px 0;
+}
+
+/* Each box (left/right) */
+.review-box {
+  padding: 25px;
+  border-radius: 12px;
+  border: 1px solid #eee;
+  background: #fff;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  margin-bottom: 25px;
+}
+
+/* Title */
+.review-list h3,
+.review-form h3,
+.review-form h5 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #111;
+  margin-bottom: 15px;
+}
+
+/* Review Items */
+.review-item {
+  padding: 15px 0;
+  border-bottom: 1px solid #eee;
+  animation: fadeIn .3s ease;
+}
+.review-item:last-child {
+  border-bottom: none;
+}
+.review-item h4 {
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+.review-item .rating {
+  font-size: 15px;
+  color: #ffb400;
+  font-weight: 600;
+}
+
+/* Review Form */
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.review-form input,
+.review-form select,
+.review-form textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  outline: none;
+  background: #fafafa;
+  transition: 0.2s;
+}
+.review-form input:focus,
+.review-form textarea:focus,
+.review-form select:focus {
+  border-color: #111;
+}
+
+/* Textarea height */
+.review-form textarea {
+  height: 130px;
+  resize: none;
+}
+
+/* Submit Button */
+.review-form button {
+  width: 100%;
+  padding: 12px;
+  background: #111;
+  color: #fff;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+.review-form button:hover {
+  background: #333;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------------------------------------- */
+/* ⭐ CUSTOMER REVIEWS - PREMIUM DESIGN */
+/* ---------------------------------------- */
+
+.review-list {
+  margin-bottom: 20px;
+}
+
+.review-list h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 25px;
+}
+
+.review-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  background: #fff;
+  padding: 18px;
+  border-radius: 12px;
+  border: 1px solid #eee;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+  transition: 0.3s ease;
+  animation: fadeIn .35s ease-out;
+}
+
+.review-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+/* Fake Avatar Circle */
+.review-avatar {
+  width: 48px;
+  height: 48px;
+  background: #111;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+/* Review Content */
+.review-content h4 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #222;
+}
+
+.review-date {
+  font-size: 13px;
+  color: #777;
+  margin-bottom: 5px;
+}
+
+.review-stars {
+  margin: 5px 0;
+}
+
+.review-stars i {
+  font-size: 15px;
+  color: #ffd700;
+  margin-right: 3px;
+}
+
+.review-text {
+  font-size: 15px;
+  color: #444;
+  line-height: 1.5;
+  margin-top: 5px;
+}
+
+/* Fade animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

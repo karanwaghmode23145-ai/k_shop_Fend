@@ -24,6 +24,9 @@ import UploadImage from './Pages/UploadImage'
 //collection
 import CollectionPage from './components/CollectionPage/CollectionPage'
 
+//review Section
+import ReviewSection from './components/Reviews/ReviewSection'
+
 
 
 const App = () => {
@@ -37,6 +40,7 @@ const App = () => {
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/upload" element={<UploadImage />} />
             <Route path="/collection" element={<CollectionPage />} />
+            <Route path="/review" element={<ReviewSection />} />
 
         </Routes>
         <Footer />
