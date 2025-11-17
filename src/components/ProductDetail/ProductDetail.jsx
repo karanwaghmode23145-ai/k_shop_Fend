@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ProductTabs from "../ProductTabs/ProductTabs";
 
+
 import "./ProductDetail.css";
 import RelatedProductsSection from "../RelatedProducts/RelatedProductsSection";
 import { useDispatch } from "react-redux";
@@ -14,30 +15,42 @@ const ProductDetail = () => {
   const [product, setProduct] = useState(null);
   const [activeImage, setActiveImage] = useState("");
   const [loading, setLoading] = useState(true);
+  const token = localStorage.getItem("token");  // <<< PROTECTED CHECK
 
+const handleAddToCart = () => {
+    if (!token) {
+      window.location.href = "/login";
+      return;
+    }
+
+    const payload = {
+      _id: product._id,
+      title: product.title,
+      price: product.price,
+      thumbnail: product.thumbnail || product.images[0],
+    };
+
+    dispatch(addToCart(payload));
+    console.log("Cart Added:", payload);
+  };
+
+  // ⭐ PROTECTED ADD TO WISHLIST
   const handleWishlist = () => {
-  const item = {
-    _id: product._id,
-    title: product.title,
-    price: product.price,
-    thumbnail: product.thumbnail || product.images[0],
-  };
-  dispatch(addToWishlist(item));
-  console.log("Added to wishlist:", item);
-};
+    if (!token) {
+      window.location.href = "/login";
+      return;
+    }
 
-  const handleAddToCart = () => {
-  // payload: minimalist product info
-  const payload = {
-    _id: product._id,
-    title: product.title,
-    price: product.price,
-    thumbnail: product.thumbnail || (product.images && product.images[0]),
+    const item = {
+      _id: product._id,
+      title: product.title,
+      price: product.price,
+      thumbnail: product.thumbnail || product.images[0],
+    };
+
+    dispatch(addToWishlist(item));
+    console.log("Wishlist Added:", item);
   };
-  dispatch(addToCart(payload));
-  // optional UI feedback:
-  console.log("UI -> dispatched addToCart for", payload._id);
-};
 
   // Fetch product by ID
   useEffect(() => {
