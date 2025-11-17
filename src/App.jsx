@@ -37,6 +37,9 @@ import RelatedProductsPage from './Pages/RelatedProductsPage'
 //cart
 import CartPage from './Pages/CartPage'
 
+//wishlist
+import WishlistPage from './Pages/WishlistPage'
+
 
 const App = () => {
     return (
@@ -53,6 +56,7 @@ const App = () => {
             <Route path="/related-products/:productId" element={<RelatedProductsPage />} />
             <Route path="/carttest" element={<CartTester />} />
             <Route path="/cart" element={<CartPage />} />
+            <Route path="/wishlist" element={<WishlistPage />} />
         </Routes>
         <Footer />
         </>

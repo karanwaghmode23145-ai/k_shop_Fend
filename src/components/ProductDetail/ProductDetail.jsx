@@ -6,6 +6,7 @@ import "./ProductDetail.css";
 import RelatedProductsSection from "../RelatedProducts/RelatedProductsSection";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../slices/cartSlice";
+import { addToWishlist } from "../../slices/wishlistSlice";
 
 const ProductDetail = () => {
   const productId = window.location.pathname.split("/").pop();
@@ -13,6 +14,17 @@ const ProductDetail = () => {
   const [product, setProduct] = useState(null);
   const [activeImage, setActiveImage] = useState("");
   const [loading, setLoading] = useState(true);
+
+  const handleWishlist = () => {
+  const item = {
+    _id: product._id,
+    title: product.title,
+    price: product.price,
+    thumbnail: product.thumbnail || product.images[0],
+  };
+  dispatch(addToWishlist(item));
+  console.log("Added to wishlist:", item);
+};
 
   const handleAddToCart = () => {
   // payload: minimalist product info
@@ -139,7 +151,7 @@ const ProductDetail = () => {
 
               <div className="buttons">
                 <button className="add-cart" onClick={handleAddToCart}>Add to Cart</button>
-                <button className="wishlist">❤️ Wishlist</button>
+               <button className="wishlist" onClick={handleWishlist}>❤️ Wishlist</button>
               </div>
 
               <div className="meta">

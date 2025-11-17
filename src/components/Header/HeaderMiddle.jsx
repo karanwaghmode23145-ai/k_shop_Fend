@@ -16,7 +16,9 @@ const HeaderMiddle = () => {
   };
 
   const cartItems = useSelector((state) => state.cart.cartItems);
-    const cartCount = cartItems.reduce((sum, i) => sum + (i.qty || 0), 0);
+  const cartCount = cartItems.reduce((sum, i) => sum + (i.qty || 0), 0);
+  const wishlistItems = useSelector((state) => state.wishlist.wishlist);
+  const wishlistCount = wishlistItems.length;
 
   return (
     <div className="header-middle d-none d-lg-block">
@@ -69,16 +71,18 @@ const HeaderMiddle = () => {
 
               {/* Wishlist */}
               <div className="header-wishlist position-relative">
-                <button className="icon-btn"><FaHeart /></button>
-                <span className="badge">4</span>
+                <Link to="/wishlist" className="icon-btn position-relative">
+                  <FaHeart />
+                  <span className="badge">{wishlistCount}</span>
+                </Link>
               </div>
 
               {/* Cart */}
               <div className="header-cart position-relative">
-              <Link to="/cart" className="cart-link">
-  Cart <span className="cart-badge">{cartCount}</span>
-</Link>
-                
+                <Link to="/cart" className="cart-link">
+                  Cart <span className="cart-badge">{cartCount}</span>
+                </Link>
+
               </div>
 
             </div>
