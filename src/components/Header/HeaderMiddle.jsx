@@ -69,6 +69,13 @@ const HeaderMiddle = () => {
                 )}
               </div>
 
+              <div className="header-wishlist position-relative">
+                <Link to="/login" className="icon-btn position-relative">
+                  <FaUser />
+                  
+                </Link>
+              </div>
+
               {/* Wishlist */}
               <div className="header-wishlist position-relative">
                 <Link to="/wishlist" className="icon-btn position-relative">
