@@ -1,62 +1,114 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { increaseQty, decreaseQty, removeFromCart, clearCart } from "../slices/cartSlice";
+import {
+  fetchCart,
+  increaseQtyBackend,
+  decreaseQtyBackend,
+  removeCartItemBackend,
+  clearCartBackend
+} from "../slices/cartSlice";
 
 const CartPage = () => {
   const dispatch = useDispatch();
+  const { items, loading } = useSelector((state) => state.cart);
 
-  // 🔥 EXACT CORRECT SELECTOR
-  const cartItems = useSelector((state) => state.cart.cartItems);
+  useEffect(() => {
+    dispatch(fetchCart());
+  }, [dispatch]);
 
-  const total = cartItems.reduce((sum, item) => sum + item.price * item.qty, 0);
+  const safeDispatch = async (thunk) => {
+    try {
+      const result = await dispatch(thunk).unwrap();
+      console.log("✅ Result:", result);
+    } catch (err) {
+      console.error("❌ API error:", err);
+      // user feedback (optional)
+      alert(err?.message || JSON.stringify(err));
+    }
+  };
+
+  if (loading) return <h2 className="text-center mt-5">Loading Cart...</h2>;
 
   return (
-    <div className="container mt-4">
-      <h2>Your Cart</h2>
+    <div className="container mt-5">
+      <h2 className="fw-bold mb-4">Your Cart</h2>
 
-      {cartItems.length === 0 && <p>Cart is empty.</p>}
+      {items.length === 0 && <h4>No items in cart.</h4>}
 
-      {cartItems.map((item) => (
+      {items.map((item) => (
         <div
-          key={item._id}
-          style={{
-            display: "flex",
-            gap: "16px",
-            alignItems: "center",
-            margin: "12px 0",
-          }}
+          key={item.productId._id}
+          className="cart-item border rounded p-3 mb-3"
         >
-          <img
-            src={item.thumbnail}
-            alt={item.title}
-            style={{ width: 80, height: 80, objectFit: "cover" }}
-          />
+          <div className="d-flex gap-4 align-items-center">
+            <img
+              src={item.productId.thumbnail || item.productId.images[0]}
+              width="90"
+              className="rounded"
+            />
 
-          <div style={{ flex: 1 }}>
-            <h4>{item.title}</h4>
-            <p>₹{item.price}</p>
+            <div className="flex-grow-1">
+              <h5 className="fw-bold">{item.productId.title}</h5>
+              <p className="text-muted">₹ {item.productId.price}</p>
+
+              <div className="d-flex align-items-center gap-2 mt-3">
+
+                {/* Decrease */}
+                <button
+                  className="btn btn-dark"
+                  onClick={() =>
+                    safeDispatch(
+                      decreaseQtyBackend({ productId: item.productId._id })
+                    )
+                  }
+                  disabled={item.quantity <= 1}
+                >
+                  -
+                </button>
+
+                {/* Qty */}
+                <span className="px-3 py-1 border rounded">
+                  {item.quantity}
+                </span>
+
+                {/* Increase */}
+                <button
+                  className="btn btn-dark"
+                  onClick={() =>
+                    safeDispatch(
+                      increaseQtyBackend({ productId: item.productId._id })
+                    )
+                  }
+                >
+                  +
+                </button>
+
+                {/* Remove */}
+                <button
+                  className="btn btn-danger ms-4"
+                  onClick={() =>
+                    safeDispatch(
+                      removeCartItemBackend({ productId: item.productId._id })
+                    )
+                  }
+                >
+                  Remove
+                </button>
+              </div>
+            </div>
           </div>
-
-          <div>
-            <button onClick={() => dispatch(decreaseQty(item._id))}>-</button>
-            <span style={{ margin: "0 8px" }}>{item.qty}</span>
-            <button onClick={() => dispatch(increaseQty(item._id))}>+</button>
-          </div>
-
-          <button
-            style={{ marginLeft: 12, color: "red" }}
-            onClick={() => dispatch(removeFromCart(item._id))}
-          >
-            Remove
-          </button>
         </div>
       ))}
 
-      {cartItems.length > 0 && (
-        <>
-          <h3>Total: ₹{total}</h3>
-          <button onClick={() => dispatch(clearCart())}>Clear Cart</button>
-        </>
+      {items.length > 0 && (
+        <div className="text-end mt-4">
+          <button
+            className="btn btn-danger"
+            onClick={() => safeDispatch(clearCartBackend())}
+          >
+            Clear Cart
+          </button>
+        </div>
       )}
     </div>
   );

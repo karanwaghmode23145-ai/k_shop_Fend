@@ -1,42 +1,24 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { 
-  addToCart, 
-  removeFromCart, 
-  increaseQty, 
-  decreaseQty, 
-  clearCart 
-} from "../slices/cartSlice";
+import { addToCartBackend } from "../slices/cartSlice";
 
 const CartTester = () => {
   const dispatch = useDispatch();
 
+  const testAdd = () => {
+    dispatch(
+      addToCartBackend({
+        productId: "6919ae0273943c08d8996886",
+        qty: 1,
+      })
+    );
+  };
+
   return (
-    <div style={{ padding: 20 }}>
-      <h2>🛒 Cart Tester</h2>
-
-      <button
-        onClick={() =>
-          dispatch(addToCart({ _id: "44", title: "Bag", price: 699 }))
-        }
-      >
-        ➕ Add Bag
-      </button>
-
-      <button onClick={() => dispatch(removeFromCart("44"))}>
-        🗑️ Remove Bag
-      </button>
-
-      <button onClick={() => dispatch(increaseQty("44"))}>
-        🔼 Increase Qty (Bag)
-      </button>
-
-      <button onClick={() => dispatch(decreaseQty("44"))}>
-        🔽 Decrease Qty (Bag)
-      </button>
-
-      <button onClick={() => dispatch(clearCart())}>
-        ❌ Clear Cart
+    <div className="container mt-5">
+      <h2>Cart Tester</h2>
+      <button className="btn btn-primary" onClick={testAdd}>
+        Add Sample Product
       </button>
     </div>
   );

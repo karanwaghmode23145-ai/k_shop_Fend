@@ -1,71 +1,176 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
-const initialState = {
-    cartItems: [],
-};
+const API = "http://localhost:5003/api/cart";
 
-const cartSlice = createSlice({
-    name: "cart",
-    initialState,
-    reducers: {
-        addToCart: (state, action) => {
-            console.log("➡️ action: addToCart", action.payload);
-            const item = action.payload;
-            const exist = state.cartItems.find((x) => x._id === item._id);
-
-            if (exist) {
-                console.log("🔁 Item exists — increasing qty by 1");
-                exist.qty += 1;
-            } else {
-                console.log("➕ Item not in cart — pushing with qty 1");
-                state.cartItems.push({ ...item, qty: 1 });
-            }
-            console.log("🔎 New cart state:", JSON.parse(JSON.stringify(state.cartItems)));
-        },
-
-        removeFromCart: (state, action) => {
-            console.log("➡️ reducer:removeFromCart payload:", action.payload);
-            state.cartItems = state.cartItems.filter((x) => x._id !== action.payload);
-            console.log("🔎 New cart state:", JSON.parse(JSON.stringify(state.cartItems)));
-        },
-
-
-        increaseQty: (state, action) => {
-            console.log("➡️ reducer:increaseQty payload:", action.payload);
-            const item = state.cartItems.find((x) => x._id === action.payload);
-            if (item) {
-                item.qty++;
-                console.log("🔼 qty increased:", item._id, "->", item.qty);
-            } else {
-                console.log("⚠️ increaseQty: item not found", action.payload);
-            }
-            console.log("🔎 New cart state:", JSON.parse(JSON.stringify(state.cartItems)));
-        },
-
-        decreaseQty: (state, action) => {
-            console.log("➡️ reducer:decreaseQty payload:", action.payload);
-            const item = state.cartItems.find((x) => x._id === action.payload);
-            if (item && item.qty > 1) {
-                item.qty--;
-                console.log("🔽 qty decreased:", item._id, "->", item.qty);
-            } else if (item) {
-                console.log("⚠️ decreaseQty: qty is 1 — not decreasing further");
-            } else {
-                console.log("⚠️ decreaseQty: item not found", action.payload);
-            }
-            console.log("🔎 New cart state:", JSON.parse(JSON.stringify(state.cartItems)));
-        },
-
-        clearCart: (state) => {
-      console.log("➡️ reducer:clearCart");
-      state.cartItems = [];
-      console.log("🔎 New cart state: []");
-    },
-
-
-
+/* ======================================================
+   ⭐ GET CART — Load user cart
+====================================================== */
+export const fetchCart = createAsyncThunk(
+  "cart/fetchCart",
+  async (_, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.get(API, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message);
     }
-})
+  }
+);
 
-export const { addToCart, removeFromCart, increaseQty, decreaseQty, clearCart } = cartSlice.actions;
+/* ======================================================
+   ⭐ ADD TO CART
+====================================================== */
+export const addToCartBackend = createAsyncThunk(
+  "cart/addToCartBackend",
+  async ({ productId, qty }, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.post(
+        API,
+        { productId, qty },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data);
+    }
+  }
+);
+
+/* ======================================================
+   ⭐ INCREASE QTY (+1)
+====================================================== */
+export const increaseQtyBackend = createAsyncThunk(
+  "cart/increaseQtyBackend",
+  async ({ productId }, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.put(
+        `${API}/increase`,
+        { productId },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data);
+    }
+  }
+);
+
+/* ======================================================
+   ⭐ DECREASE QTY ( -1 )
+====================================================== */
+export const decreaseQtyBackend = createAsyncThunk(
+  "cart/decreaseQtyBackend",
+  async ({ productId }, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.put(
+        `${API}/decrease`,
+        { productId },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data);
+    }
+  }
+);
+
+/* ======================================================
+   ⭐ REMOVE ITEM
+====================================================== */
+export const removeCartItemBackend = createAsyncThunk(
+  "cart/removeCartItemBackend",
+  async ({ productId }, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.delete(`${API}/${productId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data);
+    }
+  }
+);
+
+/* ======================================================
+   ⭐ CLEAR CART
+====================================================== */
+export const clearCartBackend = createAsyncThunk(
+  "cart/clearCartBackend",
+  async (_, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.delete(API, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data);
+    }
+  }
+);
+
+/* ======================================================
+   ⭐ REDUX SLICE
+====================================================== */
+const cartSlice = createSlice({
+  name: "cart",
+  initialState: {
+    items: [],
+    loading: false,
+    error: null,
+  },
+
+  reducers: {},
+
+  extraReducers: (builder) => {
+    builder
+      /* FETCH CART */
+      .addCase(fetchCart.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchCart.fulfilled, (state, action) => {
+        state.loading = false;
+        state.items = action.payload.items || [];
+      })
+      .addCase(fetchCart.rejected, (state, action) => {
+        state.loading = false;
+        state.items = [];
+        state.error = action.payload;
+      })
+
+      /* ADD TO CART */
+      .addCase(addToCartBackend.fulfilled, (state, action) => {
+        state.items = action.payload.items;
+      })
+
+      /* INCREASE QTY */
+      .addCase(increaseQtyBackend.fulfilled, (state, action) => {
+        state.items = action.payload.items;
+      })
+
+      /* DECREASE QTY */
+      .addCase(decreaseQtyBackend.fulfilled, (state, action) => {
+        state.items = action.payload.items;
+      })
+
+      /* REMOVE ITEM */
+      .addCase(removeCartItemBackend.fulfilled, (state, action) => {
+        state.items = action.payload.items;
+      })
+
+      /* CLEAR CART */
+      .addCase(clearCartBackend.fulfilled, (state) => {
+        state.items = [];
+      });
+  },
+});
+
 export default cartSlice.reducer;

@@ -3,22 +3,25 @@ import "./HeaderMiddle.css";
 import { FaUser, FaHeart, FaShoppingBag, FaSearch } from "react-icons/fa";
 import logo from "../../assets/logo.png";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 
 const HeaderMiddle = () => {
 
   const user = JSON.parse(localStorage.getItem("user"));
+
+  const token = localStorage.getItem("token");
+
+  // 🟢 SAFE CART SELECTOR
+  const cartItems = useSelector((state) => state.cart?.items || []);
+  const cartCount = cartItems.reduce(
+    (sum, item) => sum + (item.quantity || 0),
+    0
+  );
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     window.location.href = "/login";
   };
-
-  const cartItems = useSelector((state) => state.cart.cartItems);
-  const cartCount = cartItems.reduce((sum, i) => sum + (i.qty || 0), 0);
-  const wishlistItems = useSelector((state) => state.wishlist.wishlist);
-  const wishlistCount = wishlistItems.length;
 
   return (
     <div className="header-middle d-none d-lg-block">
@@ -31,7 +34,7 @@ const HeaderMiddle = () => {
               <a href="/"><img src={logo} alt="Site Logo" /></a>
             </div>
 
-            {/* Search Bar */}
+            {/* Search */}
             <div className="header-search">
               <form className="search-form">
                 <input type="text" placeholder="Search products..." className="search-input" />
@@ -44,52 +47,42 @@ const HeaderMiddle = () => {
             {/* Icons */}
             <div className="header-icons d-flex align-items-center gap-4">
 
-              {/* User / Login / Logout */}
+              {/* User */}
               <div className="header-user">
-                {user ? (
+                {token ? (
                   <div className="d-flex align-items-center gap-3">
-
-                    <button
-                      className="icon-btn"
-                      onClick={() => window.location.href = "/profile"}
-                    >
+                    <button className="icon-btn">
                       <FaUser />
-                      <span className="username">{user.firstName}</span>
+                      <span className="username">{user?.firstName}</span>
                     </button>
 
                     <button className="logout-btn" onClick={handleLogout}>
                       Logout
                     </button>
-
                   </div>
                 ) : (
-                  <button className="icon-btn" onClick={() => window.location.href = "/login"}>
+                  <button
+                    className="icon-btn"
+                    onClick={() => (window.location.href = "/login")}
+                  >
                     <FaUser />
                   </button>
                 )}
               </div>
 
-              <div className="header-wishlist position-relative">
-                <Link to="/login" className="icon-btn position-relative">
-                  <FaUser />
-                  
-                </Link>
-              </div>
-
               {/* Wishlist */}
               <div className="header-wishlist position-relative">
-                <Link to="/wishlist" className="icon-btn position-relative">
+                <a href="/wishlist" className="icon-btn">
                   <FaHeart />
-                  <span className="badge">{wishlistCount}</span>
-                </Link>
+                </a>
               </div>
 
               {/* Cart */}
               <div className="header-cart position-relative">
-                <Link to="/cart" className="cart-link">
-                  Cart <span className="cart-badge">{cartCount}</span>
-                </Link>
-
+                <a href="/cart" className="cart-link">
+                  <FaShoppingBag />  
+                  <span className="cart-badge">{cartCount}</span>
+                </a>
               </div>
 
             </div>
