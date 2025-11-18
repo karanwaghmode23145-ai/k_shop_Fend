@@ -3,19 +3,22 @@ import "./HeaderMiddle.css";
 import { FaUser, FaHeart, FaShoppingBag, FaSearch } from "react-icons/fa";
 import logo from "../../assets/logo.png";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const HeaderMiddle = () => {
-
   const user = JSON.parse(localStorage.getItem("user"));
-
   const token = localStorage.getItem("token");
 
-  // 🟢 SAFE CART SELECTOR
-  const cartItems = useSelector((state) => state.cart?.items || []);
-  const cartCount = cartItems.reduce(
-    (sum, item) => sum + (item.quantity || 0),
-    0
-  );
+  /* ⭐ CART COUNT */
+  const cartItems = useSelector((state) => state.cart.items || []);
+
+  const cartCount = cartItems.reduce((sum, item) => {
+    return sum + (item.qty || item.quantity || 0);
+  }, 0);
+
+  /* ⭐ WISHLIST COUNT */
+  const wishlistItems = useSelector((state) => state.wishlist.items || []);
+  const wishlistCount = wishlistItems.length;
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -31,13 +34,19 @@ const HeaderMiddle = () => {
 
             {/* Logo */}
             <div className="header-logo">
-              <a href="/"><img src={logo} alt="Site Logo" /></a>
+              <Link to="/">
+                <img src={logo} alt="Site Logo" />
+              </Link>
             </div>
 
             {/* Search */}
             <div className="header-search">
               <form className="search-form">
-                <input type="text" placeholder="Search products..." className="search-input" />
+                <input
+                  type="text"
+                  placeholder="Search products..."
+                  className="search-input"
+                />
                 <button type="submit" className="search-btn">
                   <FaSearch />
                 </button>
@@ -72,17 +81,18 @@ const HeaderMiddle = () => {
 
               {/* Wishlist */}
               <div className="header-wishlist position-relative">
-                <a href="/wishlist" className="icon-btn">
+                <Link to="/wishlist" className="icon-btn">
                   <FaHeart />
-                </a>
+                  <span className="wishlist-badge">{wishlistCount}</span>
+                </Link>
               </div>
 
               {/* Cart */}
               <div className="header-cart position-relative">
-                <a href="/cart" className="cart-link">
-                  <FaShoppingBag />  
+                <Link to="/cart" className="cart-link">
+                  <FaShoppingBag />
                   <span className="cart-badge">{cartCount}</span>
-                </a>
+                </Link>
               </div>
 
             </div>

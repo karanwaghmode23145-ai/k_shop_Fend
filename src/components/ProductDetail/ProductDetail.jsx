@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import ProductTabs from "../ProductTabs/ProductTabs";
-import "./ProductDetail.css";
-import RelatedProductsSection from "../RelatedProducts/RelatedProductsSection";
 import { useDispatch } from "react-redux";
-import { addToCartBackend } from "../../slices/cartSlice";
-import { addToWishlist } from "../../slices/wishlistSlice";
+
+import {
+  addToCartBackend
+} from "../../slices/cartSlice";
+
+import {
+  addToWishlistBackend
+} from "../../slices/wishlistSlice";
+
+import ProductTabs from "../ProductTabs/ProductTabs";
+import RelatedProductsSection from "../RelatedProducts/RelatedProductsSection";
+
+import "./ProductDetail.css";
 
 const ProductDetail = () => {
   const productId = window.location.pathname.split("/").pop();
@@ -17,62 +25,52 @@ const ProductDetail = () => {
 
   const token = localStorage.getItem("token");
 
-  // ⭐ Add to Cart Backend
+  /* ⭐ ADD TO CART */
   const handleAddToCart = () => {
-    if (!token) {
-      window.location.href = "/login";
-      return;
-    }
+    if (!token) return (window.location.href = "/login");
 
     dispatch(addToCartBackend({ productId: product._id, qty: 1 }));
-    console.log("🛒 Product Added:", product.title);
+    console.log("🛒 Added to Cart:", product.title);
   };
 
-  // ⭐ Wishlist (local)
+  /* ⭐ ADD TO WISHLIST */
   const handleWishlist = () => {
-    if (!token) {
-      window.location.href = "/login";
-      return;
-    }
+    if (!token) return (window.location.href = "/login");
 
-    dispatch(
-      addToWishlist({
-        _id: product._id,
-        title: product.title,
-        price: product.price,
-        thumbnail: product.thumbnail || product.images[0],
-      })
-    );
+    dispatch(addToWishlistBackend({ productId: product._id }));
+    console.log("💛 Added to Wishlist:", product.title);
   };
 
+  /* ⭐ Load Product */
   useEffect(() => {
-    const load = async () => {
+    const loadProduct = async () => {
       try {
-        setLoading(true);
         const res = await axios.get(
           `http://localhost:5003/api/products/${productId}`
         );
         setProduct(res.data);
         setActiveImage(res.data.thumbnail || res.data.images[0]);
       } catch (err) {
-        console.log("❌ Product Fetch Error:", err);
+        console.log("❌ Product Load Error:", err);
       }
       setLoading(false);
     };
 
-    load();
+    loadProduct();
   }, [productId]);
 
   if (loading) return <p>Loading...</p>;
-  if (!product) return <p>Not Found</p>;
+  if (!product) return <p>Product Not Found</p>;
 
   return (
     <>
       <div className="product-detail container">
         <div className="row">
-          {/* LEFT */}
+
+          {/* =============== LEFT IMAGES =============== */}
           <div className="col-lg-6 col-md-12">
-            <img src={activeImage} className="main-image" />
+
+            <img src={activeImage} className="main-image" alt="product" />
 
             <div className="thumb-list">
               {product.images.map((img, i) => (
@@ -81,12 +79,14 @@ const ProductDetail = () => {
                   src={img}
                   className={activeImage === img ? "active" : ""}
                   onClick={() => setActiveImage(img)}
+                  alt="thumb"
                 />
               ))}
             </div>
+
           </div>
 
-          {/* RIGHT */}
+          {/* =============== RIGHT INFO =============== */}
           <div className="col-lg-6 col-md-12">
             <h2>{product.title}</h2>
             <h3>₹{product.price}</h3>
@@ -99,9 +99,25 @@ const ProductDetail = () => {
               ❤️ Wishlist
             </button>
           </div>
+
         </div>
       </div>
 
+      {/* ⭐⭐ ProductTabs (Details | Info | Reviews) ⭐⭐ */}
+      <div className="container mt-5">
+        <div className="row">
+          <div className="col-lg-12">
+            <ProductTabs
+              productId={productId}
+              description={product.description}
+              size={product.size}
+              color={product.color}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* ⭐⭐ Related Products ⭐⭐ */}
       <RelatedProductsSection productId={productId} />
     </>
   );
