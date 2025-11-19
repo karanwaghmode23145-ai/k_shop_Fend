@@ -111,7 +111,7 @@ const OrderDetails = () => {
 
       {/* BACK BUTTON */}
       <div className="text-center mt-4">
-        <Link to="/orders" className="back-btn">← Back to Orders</Link>
+        <Link to="/my-orders" className="back-btn">← Back to Orders</Link>
       </div>
 
     </div>
