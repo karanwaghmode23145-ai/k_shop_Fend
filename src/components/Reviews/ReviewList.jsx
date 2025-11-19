@@ -7,7 +7,7 @@ const ReviewList = ({ productId }) => {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const res = await axios.get(`http://localhost:5003/api/reviews/${productId}`);
+        const res = await axios.get(`https://k-shop-bend.vercel.app/api/reviews/${productId}`);
         setReviews(res.data);
       } catch (err) {
         console.log("❌ Review Fetch Error:", err);

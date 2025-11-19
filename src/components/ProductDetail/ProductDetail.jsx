@@ -50,7 +50,7 @@ const ProductDetail = () => {
       try {
         setLoading(true);
         const res = await axios.get(
-          `http://localhost:5003/api/products/${productId}`
+          `https://k-shop-bend.vercel.app/api/products/${productId}`
         );
         const data = res.data;
         setProduct(data);

@@ -11,7 +11,7 @@ const RelatedProductsPage = () => {
     const fetchRelated = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:5003/api/products/related/${productId}`
+          `https://k-shop-bend.vercel.app/api/products/related/${productId}`
         );
         setRelated(res.data);
       } catch (err) {

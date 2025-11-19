@@ -14,7 +14,7 @@ const NewArrivals = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5003/api/products?isFeatured=true")
+      .get("https://k-shop-bend.vercel.app/api/products?isFeatured=true")
       .then((res) => setProducts(res.data.slice(0, 10)))
       .catch((err) => console.log(err));
   }, []);

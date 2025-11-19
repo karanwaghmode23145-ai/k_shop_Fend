@@ -11,7 +11,7 @@ const ReviewForm = ({ productId, onReviewAdded }) => {
     e.preventDefault();
 
     try {
-      await axios.post("http://localhost:5003/api/reviews", {
+      await axios.post("https://k-shop-bend.vercel.app/api/reviews", {
         productId,
         name,
         rating,
