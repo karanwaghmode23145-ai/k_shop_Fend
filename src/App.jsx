@@ -43,6 +43,9 @@ import WishlistPage from './Pages/WishlistPage'
 //protected
 import ProtectedRoute from './Auth/ProtectedRoute'
 
+//profile
+import ProfilePage from './Pages/ProfilePage'
+
 //orders
 import MyOrders from './Pages/MyOrders'
 import OrderDetails from './Pages/OrderDetails'
@@ -63,6 +66,7 @@ const App = () => {
         <Route path="/review" element={<ReviewSection />} />
         <Route path="/related-products/:productId" element={<RelatedProductsPage />} />
         <Route path="/carttest" element={<CartTester />} />
+        <Route path="/profile" element={<ProfilePage />} />
 
         {/* 🔥 Protected Routes */}
         <Route

@@ -1,0 +1,90 @@
+.profile {
+  padding: 40px 0;
+}
+
+.profile-header {
+  text-align: center;
+  padding: 25px;
+  background: linear-gradient(135deg, #ff5478, #7f00ff);
+  color: white;
+  border-radius: 12px;
+  margin-bottom: 30px;
+}
+
+.profile-header h1 {
+  font-size: 34px;
+  font-weight: 700;
+}
+
+/* CARD */
+.profile-card {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+  max-width: 700px;
+  margin: auto;
+}
+
+.profile-card input,
+.profile-card textarea {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+textarea {
+  min-height: 90px;
+  resize: none;
+}
+
+/* BUTTONS */
+.save-btn {
+  width: 100%;
+  background: #000;
+  color: white;
+  padding: 12px;
+  margin-top: 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 18px;
+  transition: 0.3s;
+}
+
+.save-btn:hover {
+  background: #ff5478;
+}
+
+.orders-btn {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  padding: 12px;
+  margin-top: 15px;
+  background: #007bff;
+  color: white;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.logout-btn {
+  width: 100%;
+  padding: 12px;
+  background: red;
+  margin-top: 20px;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+/* 📱 RESPONSIVE */
+@media (max-width: 768px) {
+  .profile-card {
+    padding: 20px;
+  }
+}
