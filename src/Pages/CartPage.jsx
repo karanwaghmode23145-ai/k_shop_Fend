@@ -7,27 +7,36 @@ import {
   removeCartItemBackend,
   clearCartBackend
 } from "../slices/cartSlice";
+import { useNavigate } from "react-router-dom";
 
 const CartPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { items, loading } = useSelector((state) => state.cart);
 
   useEffect(() => {
     dispatch(fetchCart());
   }, [dispatch]);
 
+  // Safe dispatch for error handling
   const safeDispatch = async (thunk) => {
     try {
       const result = await dispatch(thunk).unwrap();
-      console.log("✅ Result:", result);
+      console.log("Result:", result);
     } catch (err) {
-      console.error("❌ API error:", err);
-      // user feedback (optional)
+      console.error("API error:", err);
       alert(err?.message || JSON.stringify(err));
     }
   };
 
   if (loading) return <h2 className="text-center mt-5">Loading Cart...</h2>;
+
+  // 👉 Total Price Calculation
+  const totalPrice = items.reduce(
+    (sum, item) => sum + item.productId.price * item.quantity,
+    0
+  );
 
   return (
     <div className="container mt-5">
@@ -42,7 +51,11 @@ const CartPage = () => {
         >
           <div className="d-flex gap-4 align-items-center">
             <img
-              src={item.productId.thumbnail || item.productId.images[0]}
+              src={
+                item.productId.thumbnail ||
+                item.productId.images?.[0] ||
+                "/placeholder.png"
+              }
               width="90"
               className="rounded"
             />
@@ -100,13 +113,27 @@ const CartPage = () => {
         </div>
       ))}
 
+      {/* 🚀 Clear Cart + Total + Checkout Button */}
       {items.length > 0 && (
         <div className="text-end mt-4">
+
+          {/* Clear Cart */}
           <button
-            className="btn btn-danger"
+            className="btn btn-danger me-3"
             onClick={() => safeDispatch(clearCartBackend())}
           >
             Clear Cart
+          </button>
+
+          {/* Total Price */}
+          <h4 className="mt-3">Total: ₹{totalPrice}</h4>
+
+          {/* Proceed to Checkout */}
+          <button
+            className="btn btn-primary mt-3"
+            onClick={() => navigate("/place-order")}
+          >
+            Proceed to Checkout
           </button>
         </div>
       )}

@@ -1,0 +1,135 @@
+.header-middle {
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.header-logo {
+  width: 130px;
+}
+
+/* SEARCH DESKTOP */
+.search-box {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.search-input {
+  padding: 10px 14px;
+  border: none;
+  outline: none;
+}
+
+.search-btn {
+  background: #111;
+  border: none;
+  padding: 10px 18px;
+  color: #fff;
+  transition: 0.3s;
+}
+
+.search-btn:hover {
+  background: #ff4d4d;
+}
+
+/* ICON BUTTONS */
+.icon-btn {
+  font-size: 22px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  color: #111;
+  transition: .3s;
+}
+
+.icon-btn:hover {
+  color: #ff4d4d;
+  transform: scale(1.1);
+}
+
+/* BADGES */
+.badge-count {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: #ff4d4d;
+  color: #fff;
+  padding: 2px 6px;
+  font-size: 11px;
+  border-radius: 50%;
+  font-weight: bold;
+}
+
+/* LOGOUT BUTTON (DESKTOP) */
+.logout-btn {
+  padding: 6px 14px;
+  border-radius: 6px;
+  background: #ff4d4d;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.logout-btn:hover {
+  background: #d60000;
+}
+
+/* 🔥 MOBILE MENU */
+.mobile-nav {
+  background: white;
+  width: 100%;
+  padding: 20px;
+  border-top: 1px solid #ddd;
+  animation: slideDown .3s ease;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.mobile-link, .mobile-btn {
+  display: block;
+  padding: 12px 0;
+  font-size: 17px;
+  font-weight: 600;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+  background: transparent;
+  color: #111;
+  width: 100%;
+}
+
+.mobile-btn {
+  border: none;
+  cursor: pointer;
+}
+
+.logout-mobile {
+  color: #ff0000;
+}
+
+/* Mobile menu toggle */
+.mobile-menu-btn {
+  font-size: 24px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .header-logo {
+    width: 110px;
+  }
+
+  .header-icons {
+    gap: 18px !important;
+  }
+}
