@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API = "http://localhost:5003/api/wishlist";
+const API = "https://k-shop-bend.vercel.app/api/wishlist";
 
 /* ================================
    ⭐ FETCH WISHLIST — Backend
