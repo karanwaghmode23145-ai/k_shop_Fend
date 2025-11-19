@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const axiosClient = axios.create({
-  //baseURL: "http://localhost:5003",
-  baseURL: "https://k-shop-bend.vercel.app",
+  baseURL: "http://localhost:5003",
+  //baseURL: "https://k-shop-bend.vercel.app",
 });
 
 // 🔥 Automatically attach token with every request

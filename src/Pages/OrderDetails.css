@@ -1,0 +1,109 @@
+.order-page {
+  padding: 60px 0;
+}
+
+.order-title {
+  text-align: center;
+  font-size: 32px;
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+
+/* CARD STYLE */
+.order-card {
+  background: #fff;
+  padding: 25px;
+  border-radius: 14px;
+  box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+  margin-bottom: 20px;
+}
+
+/* ORDER ITEMS */
+.order-item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.order-item-img {
+  width: 70px;
+  height: 70px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.item-total {
+  font-weight: bold;
+  color: #ff4d4d;
+}
+
+/* PRICE SUMMARY */
+.summary-line,
+.summary-total {
+  display: flex;
+  justify-content: space-between;
+  margin: 8px 0;
+}
+
+.summary-total {
+  font-size: 20px;
+  font-weight: 800;
+  color: #ff4d4d;
+}
+
+/* STATUS */
+.status {
+  font-weight: bold;
+  color: #0a7dff;
+}
+
+/* BACK BUTTON */
+.back-btn {
+  display: inline-block;
+  padding: 12px 30px;
+  background: #ff4d4d;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 600;
+  color: white;
+  transition: 0.3s;
+}
+
+.back-btn:hover {
+  background: #d60000;
+}
+
+/* LOADING SPINNER */
+.order-loader-wrapper {
+  min-height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.order-spinner {
+  width: 55px;
+  height: 55px;
+  border: 5px solid rgba(0,0,0,0.1);
+  border-top-color: #ff4d4d;
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .order-item-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .item-total {
+    margin-top: 10px;
+  }
+}

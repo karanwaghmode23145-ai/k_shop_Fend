@@ -7,7 +7,9 @@ import {
   removeCartItemBackend,
   clearCartBackend
 } from "../slices/cartSlice";
-import { useNavigate } from "react-router-dom";
+
+import { useNavigate, Link } from "react-router-dom";
+import "./CartPage.css";
 
 const CartPage = () => {
   const dispatch = useDispatch();
@@ -19,56 +21,78 @@ const CartPage = () => {
     dispatch(fetchCart());
   }, [dispatch]);
 
-  // Safe dispatch for error handling
+  // Safe Dispatch Wrapper
   const safeDispatch = async (thunk) => {
     try {
-      const result = await dispatch(thunk).unwrap();
-      console.log("Result:", result);
+      await dispatch(thunk).unwrap();
     } catch (err) {
-      console.error("API error:", err);
-      alert(err?.message || JSON.stringify(err));
+      alert(err?.message || "Something went wrong");
     }
   };
 
-  if (loading) return <h2 className="text-center mt-5">Loading Cart...</h2>;
+  /* ⭐ FIXED TOTAL PRICE (SUPPORT BOTH item.price & populated product.price) */
+  const totalPrice = items.reduce((sum, item) => {
+    const price = Number(
+      item?.price ||                          // stored price in DB
+      item?.productId?.price ||               // populated price
+      0
+    );
 
-  // 👉 Total Price Calculation
-  const totalPrice = items.reduce(
-    (sum, item) => sum + item.productId.price * item.quantity,
-    0
-  );
+    const qty = Number(item?.quantity || 1);
+    return sum + price * qty;
+  }, 0);
+
+  /* ⭐ LOADING SPINNER */
+  if (loading) {
+    return (
+      <div className="cart-loader-wrapper">
+        <div className="cart-spinner"></div>
+      </div>
+    );
+  }
 
   return (
-    <div className="container mt-5">
-      <h2 className="fw-bold mb-4">Your Cart</h2>
+    <div className="cart-page container">
 
-      {items.length === 0 && <h4>No items in cart.</h4>}
+      <h2 className="cart-title">🛒 Your Shopping Cart</h2>
 
-      {items.map((item) => (
-        <div
-          key={item.productId._id}
-          className="cart-item border rounded p-3 mb-3"
-        >
-          <div className="d-flex gap-4 align-items-center">
+      {/* EMPTY CART */}
+      {items.length === 0 && (
+        <div className="empty-cart">
+          <h3>Your cart is empty 😔</h3>
+          <Link to="/collection" className="browse-btn">
+            Browse Products
+          </Link>
+        </div>
+      )}
+
+      {/* CART LIST */}
+      <div className="cart-list">
+        {items.map((item) => (
+          <div key={item.productId._id} className="cart-card">
+
+            {/* PRODUCT IMAGE */}
             <img
-              src={
-                item.productId.thumbnail ||
-                item.productId.images?.[0] ||
-                "/placeholder.png"
-              }
-              width="90"
-              className="rounded"
+              src={item.productId.thumbnail || item.productId.images?.[0]}
+              alt={item.productId.title}
+              className="cart-img"
             />
 
-            <div className="flex-grow-1">
-              <h5 className="fw-bold">{item.productId.title}</h5>
-              <p className="text-muted">₹ {item.productId.price}</p>
+            {/* PRODUCT INFO */}
+            <div className="cart-info">
+              <h4>{item.productId.title}</h4>
 
-              <div className="d-flex align-items-center gap-2 mt-3">
+              {/* Price UI (Shows discount if available) */}
+              <p className="price">
+                ₹
+                {item.productId.price ||
+                  item.price}
+              </p>
 
-                {/* Decrease */}
+              {/* QUANTITY */}
+              <div className="qty-box">
+
                 <button
-                  className="btn btn-dark"
                   onClick={() =>
                     safeDispatch(
                       decreaseQtyBackend({ productId: item.productId._id })
@@ -79,14 +103,9 @@ const CartPage = () => {
                   -
                 </button>
 
-                {/* Qty */}
-                <span className="px-3 py-1 border rounded">
-                  {item.quantity}
-                </span>
+                <span>{item.quantity}</span>
 
-                {/* Increase */}
                 <button
-                  className="btn btn-dark"
                   onClick={() =>
                     safeDispatch(
                       increaseQtyBackend({ productId: item.productId._id })
@@ -96,47 +115,54 @@ const CartPage = () => {
                   +
                 </button>
 
-                {/* Remove */}
-                <button
-                  className="btn btn-danger ms-4"
-                  onClick={() =>
-                    safeDispatch(
-                      removeCartItemBackend({ productId: item.productId._id })
-                    )
-                  }
-                >
-                  Remove
-                </button>
               </div>
             </div>
+
+            {/* REMOVE ITEM BUTTON */}
+            <button
+              className="remove-btn"
+              onClick={() =>
+                safeDispatch(
+                  removeCartItemBackend({ productId: item.productId._id })
+                )
+              }
+            >
+              ✕
+            </button>
+          </div>
+        ))}
+      </div>
+
+      {/* SUMMARY SECTION */}
+      {items.length > 0 && (
+        <div className="cart-summary">
+          <h3>Total: ₹{totalPrice}</h3>
+
+          <div className="summary-btns">
+
+            <button
+              className="clear-btn"
+              onClick={() => safeDispatch(clearCartBackend())}
+            >
+              Clear Cart
+            </button>
+
+            <button
+              className="checkout-btn"
+              onClick={() => navigate("/place-order")}
+            >
+              Proceed to Checkout →
+            </button>
+
           </div>
         </div>
-      ))}
-
-      {/* 🚀 Clear Cart + Total + Checkout Button */}
-      {items.length > 0 && (
-        <div className="text-end mt-4">
-
-          {/* Clear Cart */}
-          <button
-            className="btn btn-danger me-3"
-            onClick={() => safeDispatch(clearCartBackend())}
-          >
-            Clear Cart
-          </button>
-
-          {/* Total Price */}
-          <h4 className="mt-3">Total: ₹{totalPrice}</h4>
-
-          {/* Proceed to Checkout */}
-          <button
-            className="btn btn-primary mt-3"
-            onClick={() => navigate("/place-order")}
-          >
-            Proceed to Checkout
-          </button>
-        </div>
       )}
+
+      {/* BACK LINK */}
+      <div className="back-link">
+        <Link to="/collection">← Back to Products</Link>
+      </div>
+
     </div>
   );
 };

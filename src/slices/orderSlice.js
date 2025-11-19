@@ -1,7 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axiosClient from "../api/axiosClient";
 
-/* ===================== CREATE ORDER ===================== */
+/* =========================================================
+ 🛒 CREATE ORDER
+========================================================= */
 export const createOrder = createAsyncThunk(
   "order/createOrder",
   async (orderData, { rejectWithValue }) => {
@@ -13,15 +15,21 @@ export const createOrder = createAsyncThunk(
           Authorization: `Bearer ${token}`,
         },
       });
-      return data.order;
+
+      // Backend returns the order directly, not {order: ...}
+      return data;
 
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message);
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to create order"
+      );
     }
   }
 );
 
-/* ===================== USER ORDERS ===================== */
+/* =========================================================
+ 📦 GET USER ORDERS
+========================================================= */
 export const fetchMyOrders = createAsyncThunk(
   "order/fetchMyOrders",
   async (_, { rejectWithValue }) => {
@@ -33,15 +41,20 @@ export const fetchMyOrders = createAsyncThunk(
           Authorization: `Bearer ${token}`,
         },
       });
+
       return data;
 
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message);
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to fetch orders"
+      );
     }
   }
 );
 
-/* ===================== SINGLE ORDER ===================== */
+/* =========================================================
+ 🔍 GET ORDER BY ID
+========================================================= */
 export const fetchOrderById = createAsyncThunk(
   "order/fetchOrderById",
   async (id, { rejectWithValue }) => {
@@ -57,12 +70,16 @@ export const fetchOrderById = createAsyncThunk(
       return data;
 
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message);
+      return rejectWithValue(
+        error.response?.data?.message || "Order not found"
+      );
     }
   }
 );
 
-/* ===================== REDUCER ===================== */
+/* =========================================================
+ 🧾 SLICE CONFIG
+========================================================= */
 const orderSlice = createSlice({
   name: "order",
   initialState: {
@@ -72,26 +89,56 @@ const orderSlice = createSlice({
     error: null,
   },
 
+  reducers: {
+    clearOrderState: (state) => {
+      state.order = null;
+      state.error = null;
+      state.loading = false;
+    },
+  },
+
   extraReducers: (builder) => {
     builder
-      .addCase(createOrder.pending, (state) => { state.loading = true; })
+      /* 🔥 CREATE ORDER */
+      .addCase(createOrder.pending, (state) => {
+        state.loading = true;
+      })
       .addCase(createOrder.fulfilled, (state, action) => {
         state.loading = false;
-        state.order = action.payload;
+        state.order = action.payload; // order object itself
       })
       .addCase(createOrder.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
 
+      /* 📌 GET USER ORDERS */
+      .addCase(fetchMyOrders.pending, (state) => {
+        state.loading = true;
+      })
       .addCase(fetchMyOrders.fulfilled, (state, action) => {
+        state.loading = false;
         state.orders = action.payload;
       })
+      .addCase(fetchMyOrders.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
 
+      /* 🔍 GET ORDER BY ID */
+      .addCase(fetchOrderById.pending, (state) => {
+        state.loading = true;
+      })
       .addCase(fetchOrderById.fulfilled, (state, action) => {
+        state.loading = false;
         state.order = action.payload;
       })
+      .addCase(fetchOrderById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
   },
 });
 
+export const { clearOrderState } = orderSlice.actions;
 export default orderSlice.reducer;
